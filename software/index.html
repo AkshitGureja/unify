@@ -8,6 +8,7 @@
 </head>
 <body>
 
+
 <div class="dashboard">
     <header>
       <div class="f fe">
@@ -47,37 +48,36 @@
       <div class="appliances">
         
         <div id="fan" class="appliance">
-            <button onclick='PublishToFan("0")'></button>
           <input type="checkbox" name="a" id="a">
           <label for="a">
             <i class="l"></i>
-            <strong>Lamp</strong>
-            <span data-o="opened" data-c="closed"></span>
+            <strong>Fan</strong>
+            <span data-o="ON" data-c="OFF"></span>
             <small></small>
           </label>
         </div>
         
-        <div id="light1" class="appliance light1">
+        <div id="light1" class="appliance">
           <input type="checkbox" name="a" id="b">
           <label for="b">
             <i class="r"></i>
-            <strong>Router</strong>
-            <span data-o="opened" data-c="closed"></span>
+            <strong>Light 1</strong>
+            <span data-o="ON" data-c="OFF"></span>
             <small></small>
           </label>
         </div>
         
-        <div id="light2" class="light2 appliance">
+        <div id="light2" class="appliance">
           <input type="checkbox" name="a" id="c">
           <label for="c">
             <i class="a"></i>
-            <strong>Air</strong>
-            <span data-o="opened" data-c="closed"></span>
+            <strong>Light 2</strong>
+            <span data-o="ON" data-c="OFF"></span>
             <small></small>
           </label>
         </div>
         
-        <div class="appliance">
+        <!-- <div class="appliance">
           <input type="checkbox" name="a" id="d">
           <label for="d">
             <i class="f"></i>
@@ -85,7 +85,7 @@
             <span data-o="opened" data-c="closed"></span>
             <small></small>
           </label>
-        </div>
+        </div> -->
         
         <div class="m-player">
           <h2>Shared Devices</h2>
@@ -112,7 +112,45 @@
 
 </body>
 <script>
-    const clientId = "OhkTEh00FAEUIA4oNRstJis"
+let F = 0;
+let L1 = 0;
+let L2 = 0;
+
+document.addEventListener('DOMContentLoaded', () => {
+  
+  fetch("https://api.thingspeak.com/channels/1773603/fields/1/last.json?api_key=6K0BXLAW3EBVZKWY&status=true")
+    .then(response => response.json())
+    .then(data => {
+      F = (data).field1
+      if(F == 0){
+        document.getElementById("a").checked = false
+      }else{
+        document.getElementById("a").checked = true
+      }
+    })
+  fetch("https://api.thingspeak.com/channels/1773603/fields/2/last.json?api_key=6K0BXLAW3EBVZKWY&status=true")
+    .then(response => response.json())
+    .then(data => {
+      L1 = ((data)).field2
+      if(L1 == 0){
+        document.getElementById("b").checked = false
+      }else{
+        document.getElementById("b").checked = true
+      }
+    })
+  fetch("https://api.thingspeak.com/channels/1773603/fields/3/last.json?api_key=6K0BXLAW3EBVZKWY&status=true")
+    .then(response => response.json())
+    .then(data => {
+      L2 = ((data)).field3
+      if(L2 == 0){
+        document.getElementById("c").checked = false
+      }else{
+        document.getElementById("c").checked = true
+      }
+    })
+})
+
+const clientId = "OhkTEh00FAEUIA4oNRstJis"
 const host = 'ws://mqtt3.thingspeak.com/mqtt'
 
 const options = {
@@ -154,6 +192,20 @@ client.on('connect', () => {
 
 client.on('message', (topic, message, packet) => {
   console.log('Received Message: ' + message.toString() + '\nOn topic: ' + topic)
+  console.log(JSON.parse(message))
+  info = JSON.parse(message)
+
+  var val = true
+  if(info.field1 == 0){val = false};
+  document.getElementById("a").checked = val
+
+  var val_l1 = true
+  if(info.field2 == 0){val_l1 = false};
+  document.getElementById("b").checked = val_l1
+
+  var val_l2 = true
+  if(info.field1 == 0){val_l2 = false};
+  document.getElementById("c").checked = val_l2
 })
 
 client.on('close', () => {
@@ -161,18 +213,36 @@ client.on('close', () => {
 })
 
 function PublishToFan(fan){
-  client.publish('channels/1773603/publish', 'field1=' + fan + '&status=MQTTPUBLISH', { qos: 0, retain: false })
+  if(fan == 0){
+    F = 1;
+  }else{
+    F = 0;
+  }
+  console.log(F)
+  client.publish('channels/1773603/publish', 'field1=' + F + '&status=MQTTPUBLISH', { qos: 0, retain: false })
 }
 function PublishToLight1(light1){
-    client.publish('channels/1773603/publish', 'field2=' + light1 + '&status=MQTTPUBLISH', { qos: 0, retain: false })
+  if(light1 == 0){
+    L1 = 1;
+  }else{
+    L1 = 0;
+  }
+  client.publish('channels/1773603/publish', 'field2=' + L1 + '&status=MQTTPUBLISH', { qos: 0, retain: false })
 }
 function PublishToLight2(light2){
-    client.publish('channels/1773603/publish', 'field3=' + light2 + '&status=MQTTPUBLISH', { qos: 0, retain: false })
+  if(light2 == 0){
+    L2 = 1
+    console.log("light was off")
+  }else{
+    L2 = 0;
+    console.log("light was on")
+  }
+  client.publish('channels/1773603/publish', 'field3=' + L2 + '&status=MQTTPUBLISH', { qos: 0, retain: false })
 }
 
-document.getElementById("fan").onclick = function() {PublishToFan(0)};
-document.getElementById("light1").onclick = function() {PublishToLight1(0)};
-document.getElementById("light2").onclick = function() {PublishToLight2(0)};
+document.getElementById("fan").onclick = function() {PublishToFan(F)};
+document.getElementById("light1").onclick = function() {PublishToLight1(L1)};
+document.getElementById("light2").onclick = function() {PublishToLight2(L2)};
 
 </script>
 </html>
