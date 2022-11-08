@@ -46,12 +46,13 @@
     <section>
     <!-- Category -->
       <div class="category">
-        <ul>
+        <strong  >Connected Devices</strong>
+        <!-- <ul>
           <li><a href="#!" class="active">Living Room</a></li>
           <li><a href="#!">Kitchen</a></li>
           <li><a href="#!">Dinning</a></li>
           <li><a href="#!">Weather</a></li>
-        </ul>
+        </ul> -->
       </div>
     <!-- Appliances -->
       <div class="appliances">
@@ -298,6 +299,29 @@ function PublishToLight2(light2){
 document.getElementById("fan").onmouseup = function() {PublishToFan(F)};
 document.getElementById("light1").onmouseup = function() {PublishToLight1(L1)};
 document.getElementById("light2").onmouseup = function() {PublishToLight2(L2)};
+
+fetch ( "https://api.openweathermap.org/data/2.5/weather?lat=17.38&lon=78.49&units=metric&appid=fd8451f6faf82427d680c1f9b37f7b16")
+      .then(response => response.json())
+      .then(data => {
+        Tem = (data).main.temp ;
+        Hum = (data).main.humidity ;
+        atm_typ = ( data).weather[0].description ; 
+
+        console.log ( "Temperature is " + Tem ) ;
+        console.log ( "Humidity is " + Hum ) ;
+        console.log ( "Atmospheric type is " + atm_typ ) ;
+        // console.log ("Date is " + Date.prototype.getDate () ) ; 
+        atm_typ = atm_typ.charAt(0).toUpperCase() + atm_typ.slice(1);
+        document.getElementById ( "temperature" ).innerText = Math.round(Tem) + "°C";
+        document.getElementById ( "humidity" ).innerText = Hum + "%";
+        document.getElementById ( "atmos_type" ).innerText = atm_typ ;
+        // if(F == 0){
+        //   document.getElementById("a").checked = false
+        // }else{
+        //   document.getElementById("a").checked = true
+        // }
+      })
+
 
 </script>
 </html>
