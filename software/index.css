@@ -19,9 +19,17 @@
   
   .f {
     display: flex;
+    justify-content: space-between;
   }
   
   .fe {
+    align-items: flex-end;
+  }
+
+  .atmos {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     align-items: flex-end;
   }
   
@@ -112,7 +120,7 @@
   
   .appliances {
     display: flex;
-    /* flex-wrap: wrap; */
+    flex-wrap: wrap;
     justify-content: space-between;
     width: 100%;
     margin: 30px auto;
@@ -164,6 +172,13 @@
     z-index: 0;
     background-color: white;
     content: "";
+  }
+  #eeadd label {
+    box-shadow: none;
+  }
+
+  #eeadd label::before {
+    background-color: #eeeeee;
   }
   .appliance label * {
     position: relative;
@@ -287,6 +302,25 @@
     top: 14px;
     left: 6px;
   }
+
+  #icon_add {
+    position: relative;
+    width: 100px;
+    /* height: 100%; */
+
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 600,
+    'GRAD' 100,
+    'opsz' 48;
+
+    top: 40%;
+    color: #ababab;
+    left: 40%;
+    z-index: 1;
+    transition: 200ms;
+  }
+
   .appliance input {
     display: none;
   }

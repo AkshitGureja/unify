@@ -5,35 +5,44 @@
     <link rel="stylesheet" href="index.css">
     <!-- <script src="index.js"></script> -->
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
 
 
 <div class="dashboard">
-    <header>
-      <div class="f fe">
-        <div class="icon icon-w"></div>
-        <div class="heading">
-          <h5 class="date">1 Feb 2019</h5>
-          <h2 class="title">Cloudy</h2>
-        </div>
-      </div>
+  <header>
       
-      <div class="weather f">
-        <div>
-          <strong>26°<sup>C</sup></strong>
-          <p>Indoor Temp.</p>
-        </div>
-        <div>
-          <strong>48.2%</strong>
-          <p>Outdoor Humidity</p>
-        </div>
-        <div>
-          <strong>52.99</strong>
-          <p>Indoor Temp.</p>
-        </div>
+      
+    <div class="f fe">
+      <div id="logo">
+        <img src="unify.png" width=60px alt="team_logo">
       </div>
-    </header>
+
+
+      <div class="heading">
+        <div class="atmos">
+          <div class="icon icon-w"></div>
+          <h2 class="title" id = "atmos_type">Cloudy</h2>
+        </div>
+        <h5 class="date" style="text-align:right" id = "curr_date">08 Nov 2022 </h5>
+      </div>
+    </div>
+
+    <div class="weather f">
+      <div>
+        <strong id = "temperature">26°C</strong>
+        <p>Temperature </p>
+      </div>
+      <div>
+        <strong id = "humidity" >48.2%</strong>
+        <p>Outdoor Humidity</p>
+      </div>
+    </div>
+
+
+  </header>
     <section>
     <!-- Category -->
       <div class="category">
@@ -76,6 +85,18 @@
             <small></small>
           </label>
         </div>
+
+        <div class="appliance" id="eeadd">
+          <input type="checkbox" name="a" id="d">
+          <label for="d">
+            <!-- <i class="f"></i> -->
+            <!-- <strong>Add more</strong> -->
+            <span class="material-symbols-outlined" id="icon_add">
+              add_circle
+            </span>
+
+          </label>
+        </div>
         
         <!-- <div class="appliance">
           <input type="checkbox" name="a" id="d">
@@ -87,7 +108,7 @@
           </label>
         </div> -->
         
-        <div class="m-player">
+        <!-- <div class="m-player">
           <h2>Shared Devices</h2>
           <div class="player">
             <div class="disc"></div>
@@ -102,52 +123,62 @@
               </label>
             </div>
           </div>
-        </div>
+        </div> -->
         
       </div>
     </section>
   </div>
   
-  <a href="https://www.youtube.com/watch?v=URUPsrmtYfs" target="_blank" title="Watch me speed code this" style="position: fixed; bottom: 10px; right: 10px"><img src="http://co0kie.github.io/codepen/youtube.png" alt=""></a>
+  <!-- <a href="https://www.youtube.com/watch?v=URUPsrmtYfs" target="_blank" title="Watch me speed code this" style="position: fixed; bottom: 10px; right: 10px"><img src="http://co0kie.github.io/codepen/youtube.png" alt=""></a> -->
 
 </body>
 <script>
 let F = 0;
 let L1 = 0;
 let L2 = 0;
+var l2_bool = true;
+var l1_bool = true;
+var fan_bool = true;
+var pushed;
+var last_id;
+
 
 document.addEventListener('DOMContentLoaded', () => {
   
   fetch("https://api.thingspeak.com/channels/1773603/fields/1/last.json?api_key=6K0BXLAW3EBVZKWY&status=true")
     .then(response => response.json())
     .then(data => {
-      F = (data).field1
-      if(F == 0){
-        document.getElementById("a").checked = false
+      F = (data).field1;
+      console.log(F);
+      if(F == 1){
+        document.getElementById("a").checked = true;
       }else{
-        document.getElementById("a").checked = true
+        document.getElementById("a").checked = false;
       }
+
     })
   fetch("https://api.thingspeak.com/channels/1773603/fields/2/last.json?api_key=6K0BXLAW3EBVZKWY&status=true")
     .then(response => response.json())
     .then(data => {
-      L1 = ((data)).field2
-      if(L1 == 0){
-        document.getElementById("b").checked = false
+      L1 = ((data)).field2;
+      if(L1 == 1){
+        document.getElementById("b").checked = true;
       }else{
-        document.getElementById("b").checked = true
+        document.getElementById("b").checked = false;
       }
+
     })
   fetch("https://api.thingspeak.com/channels/1773603/fields/3/last.json?api_key=6K0BXLAW3EBVZKWY&status=true")
     .then(response => response.json())
     .then(data => {
-      L2 = ((data)).field3
-      if(L2 == 0){
-        document.getElementById("c").checked = false
+      L2 = ((data)).field3;
+      if(L2 == 1){
+        document.getElementById("c").checked = true;
       }else{
-        document.getElementById("c").checked = true
+        document.getElementById("c").checked = false;
       }
     })
+  first = true;
 })
 
 const clientId = "OhkTEh00FAEUIA4oNRstJis"
@@ -195,17 +226,41 @@ client.on('message', (topic, message, packet) => {
   console.log(JSON.parse(message))
   info = JSON.parse(message)
 
-  var val = true
-  if(info.field1 == 0){val = false};
-  document.getElementById("a").checked = val
+  // fetch("https://api.thingspeak.com/channels/1773603/feeds/last.json?api_key=6K0BXLAW3EBVZKWY&status=true")
+  //   .then(response => response.json())
+  //   .then(data => {
+  //     last_id = ((data)).entry_id;
+  //   });
 
-  var val_l1 = true
-  if(info.field2 == 0){val_l1 = false};
-  document.getElementById("b").checked = val_l1
+  console.log("Info id is" + info.entry_id);
+  // console.log("Last entr/y id is" + last_id);
+  if((info.entry_id != last_id) && first != true){
 
-  var val_l2 = true
-  if(info.field1 == 0){val_l2 = false};
-  document.getElementById("c").checked = val_l2
+    fan_val = info.field1;
+    light1_val = info.field2;
+    light2_val = info.field3;
+
+    if(fan_val == 1){
+      document.getElementById("a").checked = true;
+    }else if(fan_val == 0){
+      document.getElementById("a").checked = false;
+    }else{}
+
+    if(light1_val == 1){
+      document.getElementById("b").checked = true;
+    }else if(light1_val == 0){
+      document.getElementById("b").checked = false;
+    }else{}
+
+    if(light2_val == 1){
+      document.getElementById("c").checked = true;
+    }else if(light2_val == 0){
+      document.getElementById("c").checked = false;
+    }else{}
+
+  }
+
+  first = false;
 })
 
 client.on('close', () => {
@@ -220,6 +275,7 @@ function PublishToFan(fan){
   }
   console.log(F)
   client.publish('channels/1773603/publish', 'field1=' + F + '&status=MQTTPUBLISH', { qos: 0, retain: false })
+  last_id += 1;
 }
 function PublishToLight1(light1){
   if(light1 == 0){
@@ -228,21 +284,20 @@ function PublishToLight1(light1){
     L1 = 0;
   }
   client.publish('channels/1773603/publish', 'field2=' + L1 + '&status=MQTTPUBLISH', { qos: 0, retain: false })
+  last_id += 1;
 }
 function PublishToLight2(light2){
   if(light2 == 0){
-    L2 = 1
-    console.log("light was off")
+    L2 = 1;
   }else{
     L2 = 0;
-    console.log("light was on")
   }
   client.publish('channels/1773603/publish', 'field3=' + L2 + '&status=MQTTPUBLISH', { qos: 0, retain: false })
+  last_id += 1;
 }
-
-document.getElementById("fan").onclick = function() {PublishToFan(F)};
-document.getElementById("light1").onclick = function() {PublishToLight1(L1)};
-document.getElementById("light2").onclick = function() {PublishToLight2(L2)};
+document.getElementById("fan").onmouseup = function() {PublishToFan(F)};
+document.getElementById("light1").onmouseup = function() {PublishToLight1(L1)};
+document.getElementById("light2").onmouseup = function() {PublishToLight2(L2)};
 
 </script>
 </html>
