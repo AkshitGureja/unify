@@ -4,14 +4,11 @@ import { StyleSheet, Text, View, Image , Dimensions, TouchableOpacity} from 'rea
 
 var Dim_width = Dimensions.get('window').width; //full width
 
-const Devices = ({devices, curr_added}) => {
-
-
+const Devices = ({devices, curr_added, deleteDevice}) => {
     return (
-
         <View>
             <View  style={styles.devices}>
-                {connected_dev.map((device) => (<Device key={device.id} device ={device}/>))}
+                {devices.map((device) => (<Device key={device.id} device ={device} deleteDevice={deleteDevice}/>))}
             </View>
         </View>
     )

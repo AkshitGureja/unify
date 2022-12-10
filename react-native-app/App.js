@@ -81,11 +81,18 @@ const App = () => {
     })
   }
 
+  const deleteDevice = (id) => {
+    setCurrDevices(curr_added => {
+      var current = curr_added.filter(function(ele){return ele != id})
+      return current
+    })
+  }
+
   return (
     <View style={styles.container}>
       {/* <Header /> */}
       <View>
-        {devices.length > 0 ? <Devices devices={devices} curr_added={curr_added} /> : " No Connected Device"}
+        {connected_dev.length > 0 ? <Devices devices={connected_dev} curr_added={curr_added} deleteDevice={deleteDevice}/> : " No Connected Device"}
       </View>
       <View>
         {connected_dev.length < 7 ? <AddDevice toggleRemaining={toggleRemaining}/> : ""}

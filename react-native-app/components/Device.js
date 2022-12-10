@@ -1,10 +1,10 @@
-import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity } from 'react-native';
 import React from 'react'
 
 var Dim_width = Dimensions.get('window').width; //full width
 var Dim_height = Dimensions.get('window').height; //full width
 
-const Device = ({device}) => {
+const Device = ({device, deleteDevice}) => {
     return (
         <View style={[styles.card, styles.elevation]}>
             <View>
@@ -15,6 +15,9 @@ const Device = ({device}) => {
             <Text>
                 {device.status ? "ON" : "OFF"}
             </Text>
+            <TouchableOpacity onPress={() => deleteDevice(device.id)}>
+              <Text>Remove</Text>
+            </TouchableOpacity>
         </View>
     );
 }
