@@ -39,12 +39,14 @@ const App = () => {
       type:"Fan",
       device_num: 1,
       status: true,
+      fan_speed: 1,
     },
     {
       id:6,
       type:"Fan",
       device_num: 2,
       status: false,
+      fan_speed: 0,
     },
     {
       id:7,
@@ -52,18 +54,12 @@ const App = () => {
       device_num: 1,
       status: false,
     },
-    {
-      id:8,
-      type:"Add Device",
-      device_num: 0,
-      status: true,
-    }
   ])
 
 
   return (
     <View style={styles.container}>
-      <Header />
+      {/* <Header /> */}
       {devices.length > 0 ? <Devices devices={devices} curr_added={curr_added} /> : " No Connected Device"}
     </View>
   );
