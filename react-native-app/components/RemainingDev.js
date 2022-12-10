@@ -3,10 +3,10 @@ import React from 'react';
 
 var Dim_width = Dimensions.get('window').width; //full width
 
-const RemainingDev = ({remaining}) => {
+const RemainingDev = ({remaining, AddDeviceToConnected}) => {
 
     return (
-        <TouchableOpacity style={styles.listItem}>
+        <TouchableOpacity style={styles.listItem} onPress={() => AddDeviceToConnected(remaining.id)}>
             <View style={styles.listItemView}>
                 <Text style={styles.listItemText}>{remaining.type + " " + remaining.device_num}</Text>
             </View>

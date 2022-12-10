@@ -2,12 +2,16 @@ import { StyleSheet, Text, View, Image , Dimensions} from 'react-native';
 import React, {useState} from 'react'
 import Header from './components/Header';
 import Devices from './components/Devices';
+import AddDevice from "./components/AddDevice";
+import RemainingDev from "./components/RemainingDev";
 
 var Dim_width = Dimensions.get('window').width; //full width
 var Dim_height = Dimensions.get('window').height; //full height
 
 const App = () => {
-  const [curr_added, setCurrDevices] = useState([1,2,3,6,7])
+  const [curr_added, setCurrDevices] = useState([1,4,3,6,7])
+
+  const [show_remaining, setShowRemaining] = useState(true)
 
   const [devices, setDevices] = useState([
     {
@@ -56,11 +60,39 @@ const App = () => {
     },
   ])
 
+  connected_dev = [];
+  remaining_dev = [];
+
+  for(let i = 0; i < devices.length; i++){
+      if(curr_added.includes(devices[i].id)){
+          connected_dev.push(devices[i]);
+      }else{
+          remaining_dev.push(devices[i]);
+      }
+  }
+
+  const toggleRemaining = () => {
+    setShowRemaining(!show_remaining);
+  }
+
+  const AddDeviceToConnected = (id) => {
+    setCurrDevices(curr_added => {
+      return [...curr_added, id]
+    })
+  }
 
   return (
     <View style={styles.container}>
       {/* <Header /> */}
-      {devices.length > 0 ? <Devices devices={devices} curr_added={curr_added} /> : " No Connected Device"}
+      <View>
+        {devices.length > 0 ? <Devices devices={devices} curr_added={curr_added} /> : " No Connected Device"}
+      </View>
+      <View>
+        {connected_dev.length < 7 ? <AddDevice toggleRemaining={toggleRemaining}/> : ""}
+      </View>
+      <View>
+        {show_remaining ? (remaining_dev.map((not_connected) => (<RemainingDev key={not_connected.id} remaining={not_connected} AddDeviceToConnected={AddDeviceToConnected}/>))) : ""}
+      </View>
     </View>
   );
 }

@@ -3,12 +3,12 @@ import React from 'react';
 
 var Dim_width = Dimensions.get('window').width; //full width
 
-const AddDevice = () => {
+const AddDevice = ({toggleRemaining}) => {
 
     return (
         <View style={[styles.card, styles.elevation]}>
             <TouchableNativeFeedback
-                // onPress={this._onPressButton}
+                onPress={toggleRemaining}
                 background={Platform.OS === 'android' ? TouchableNativeFeedback.SelectableBackground() : ''}>
                 <View style={styles.button}>
                     <Text style={styles.buttonText}>Add Device {Platform.OS !== 'android' ? '(Android only)' : ''}</Text>
