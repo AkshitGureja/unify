@@ -18,9 +18,11 @@ const styles= StyleSheet.create({
     devices:{
         display:"flex",
         flexWrap: "wrap",
-        justifyContent:"space-between",
+        justifyContent:"space-evenly",
         width:Dim_width,
         marginTop:30,
+        // marginLeft:20,
+        marginRight:20,
         flexDirection:'row',
     }
 })
