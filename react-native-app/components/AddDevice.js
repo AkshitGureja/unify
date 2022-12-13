@@ -29,11 +29,12 @@ const styles= StyleSheet.create({
     },
     button: {
         marginBottom: 30,
+        marginTop:20,
         width: Dim_width,
         height:90,
         alignItems: 'center',
         backgroundColor: '#2196F3',
-        borderRadius:20,
+        borderRadius:50,
       },
       buttonText: {
         textAlign: 'center',
