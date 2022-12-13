@@ -1,23 +1,31 @@
 import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity } from 'react-native';
 import React from 'react'
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { AntDesign, FontAwesome} from '@expo/vector-icons';
 
 var Dim_width = Dimensions.get('window').width; //full width
 var Dim_height = Dimensions.get('window').height; //full width
 
 const Device = ({device, deleteDevice}) => {
     return (
-        <View style={[styles.card, styles.elevation]}>
-            <View>
+        <View style={[styles.card, styles.elevation, device.status ? styles.blue : styles.white]}>
+            <View style={styles.cross}>
                 <Text style={styles.heading}>
                   {device.type + " " + device.device_num}
                 </Text>
+                <TouchableOpacity onPress={() => deleteDevice(device.id)}>
+                  <View style={styles.container}>
+                    <AntDesign name="closecircle" size={25} color="maroon" />
+                  </View>
+                </TouchableOpacity>
             </View>
             <Text>
                 {device.status ? "ON" : "OFF"}
             </Text>
-            <TouchableOpacity onPress={() => deleteDevice(device.id)}>
+            {/* <TouchableOpacity >
               <Text>Remove</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+            
         </View>
     );
 }
@@ -54,17 +62,27 @@ const styles = StyleSheet.create({
       marginBottom: 13,
     },
     card: {
-      backgroundColor: 'white',
       borderRadius: 20,
       paddingVertical: 45,
       paddingHorizontal: 25,
       width: '40%',
       marginVertical: 10,
     },
+    white:{
+      backgroundColor: 'white',
+    },
+    blue:{
+      backgroundColor: 'skyblue'
+    },
     elevation: {
       elevation: 20,
       shadowColor: '#52006A',
     },
+    cross:{
+      flex:1, 
+      flexDirection:'row', 
+      justifyContent:'space-between'
+    }
   });
 
 export default Device
