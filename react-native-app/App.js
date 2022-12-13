@@ -1,9 +1,10 @@
-import { StyleSheet, Text, View, Image , Dimensions} from 'react-native';
+import { StyleSheet, Text, View, Image , Dimensions, ScrollView} from 'react-native';
 import React, {useState} from 'react'
 import Header from './components/Header';
 import Devices from './components/Devices';
 import AddDevice from "./components/AddDevice";
 import RemainingDev from "./components/RemainingDev";
+// import Paho from 'paho-mqtt';
 
 var Dim_width = Dimensions.get('window').width; //full width
 var Dim_height = Dimensions.get('window').height; //full height
@@ -88,9 +89,51 @@ const App = () => {
     })
   }
 
+  // const clientId = "OhkTEh00FAEUIA4oNRstJis"
+  // const host = '//mqtt3.thingspeak.com/mqtt'
+
+  // const options = {
+  //   keepalive: 30,
+  //   clientId: clientId,
+  //   username: 'OhkTEh00FAEUIA4oNRstJis',
+  //   password: 'CQSCMjjAjdTm2bw6s135lsIC',
+  //   protocolId: 'MQTT',
+  //   protocolVersion: 4,
+  //   clean: true,
+  //   reconnectPeriod: 1000,
+  //   connectTimeout: 30 * 1000,
+  //   will: {
+  //     topic: 'WillMsg',
+  //     payload: 'Connection Closed abnormally..!',
+  //     qos: 0,
+  //     retain: true
+  //   },
+  //   rejectUnauthorized: false
+  // }
+
+  // console.log('connecting mqtt client')
+  // var client =  new Paho.Client(host, Number(1883), '/',clientId);
+
+  // client.connect({
+  //   onSuccess: function(){
+  //     console.log("connected");
+  //     client.subscribe('channels/1773603/subscribe', { qos: 0 })
+  //     console.log("connected");
+  //   },
+  //   onFailure: function(){
+  //     console.log("connected 2");
+  //   },
+  //   userName: options.username,
+  //   password: options.password,
+  //   useSSL:true,
+  // })
+
+  // console.log("connected1")
+
+
   return (
-    <View style={styles.container}>
-      {/* <Header /> */}
+    <ScrollView style={styles.container}>
+      <Header />
       <View>
         {connected_dev.length > 0 ? <Devices devices={connected_dev} curr_added={curr_added} deleteDevice={deleteDevice}/> : " No Connected Device"}
       </View>
@@ -100,7 +143,7 @@ const App = () => {
       <View>
         {show_remaining ? (remaining_dev.map((not_connected) => (<RemainingDev key={not_connected.id} remaining={not_connected} AddDeviceToConnected={AddDeviceToConnected}/>))) : ""}
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
