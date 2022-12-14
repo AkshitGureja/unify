@@ -69,9 +69,9 @@ const Header = () => {
           
           <View style = { [styles0.textpart, {width : '40%' , height : '100%' , display : 'flex' , flexDirection : 'column' , justifyContent : 'space-evenly'}]}> 
                   
-                  <Text style ={{color:'white'}}> {date.slice(0,3)}, {date.slice(4,10)}  </Text>
-                  <Text style ={{color:'white'}}> {temperature} °C </Text>
-                  <Text style ={{color:'white'}}> {description} </Text>
+                  <Text style ={{color:'white', fontWeight : "800" ,}}> {date.slice(0,3)}, {date.slice(4,10)}  </Text>
+                  <Text style ={{color:'white', fontWeight : "800" ,}}> {temperature} °C </Text>
+                  <Text style ={{color:'white', fontWeight : "800" ,}}> {description} </Text>
           </View>
 
 
@@ -99,12 +99,13 @@ const Header = () => {
       borderBottomColor : 'rgba(220,224,228,0.5)' ,
       borderBottomWidth : 1 ,
       // backgroundColor : '#DDF8E6' ,
-      backgroundColor : 'rgba(17,17,28,1)' ,
+      backgroundColor : 'rgb(37,37,48)' ,
     },
     textpart : { 
 
       alignSelf : 'center',
       color : 'white' ,
+      
       // backgroundColor : '#9fff9f' ,
       
     
@@ -113,7 +114,7 @@ const Header = () => {
     justifyContent : 'center',
     alignItems : 'center',
     // border : '1% solid yellow' ,
-    // backgroundColor : 'white' ,
+    // backgroundColor : 'rgba(255,255,255,0.5)' ,
     // borderWidth : 1 , 
     // borderColor : 'yellow' ,
     height : '75%',
@@ -145,7 +146,7 @@ const Device = ({device, deleteDevice}) => {
       <View style = {stylesDevice.crosspart}>
           <TouchableOpacity style = {stylesDevice.toucharea} onPress={() => deleteDevice(device.id)}>
                 <View style={stylesDevice.xmark}>
-                  <AntDesign name="closecircle" size={23} color="rgb(205,205,150)" />
+                  <AntDesign name="closecircle" size={23} color="rgba(245,215,180,0.7)" />
                 </View>
           </TouchableOpacity>
       </View>
@@ -158,7 +159,7 @@ const Device = ({device, deleteDevice}) => {
                 {device.type + " " + device.device_num}
               </Text>
 
-          <Text  style = { { color : "white"}} >
+          <Text  style = { { color : "rgb(0,0,0)"}} >
               {device.status ? "ON" : "OFF"}
           </Text>
       
@@ -174,11 +175,12 @@ const Device = ({device, deleteDevice}) => {
 };
 
 const stylesDevice = StyleSheet.create({
+
   heading: {
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 13,
-    color : 'rgba(10,250,250 , 0.9)' ,
+    color : 'rgb(10,110,110 )' ,
     // color : 'green' ,
     backgroundColor  : 'rgba(0,0,0,0)',
 
@@ -187,27 +189,30 @@ const stylesDevice = StyleSheet.create({
   card: {
     backgroundColor: 'aliceblue',
     borderRadius: 20,
-    paddingBottom: 45,
-    paddingLeft: 25,
-    paddingRight: 5,
-    paddingTop: 5,
-    width: '40%',
+    paddingBottom: 30,
+    paddingLeft: 20,
+    paddingRight: 0,
+    paddingTop: 10,
+    width: '37%',
     marginVertical: 10,
-    borderColor : "rgba(150,255,155,1)" ,
     borderStyle : 'solid', 
     borderWidth : 3 , 
     backgroundColor  : 'rgba(0,0,0,0)',
 
   },
   white:{
-    // backgroundColor: 'rgba(164,164,64,1)' ,
-    backgroundColor: 'rgb(60,120,80)' ,
+    // backgroundColor: 'rgb(60,120,80)' ,
+    backgroundColor: 'rgb(255,255,255)' ,
+    // borderColor : "rgba(250,255,155,1)" ,
+    borderColor : "rgba(160,240,220,0.3)" ,
+
   },
   blue:{
-    backgroundColor: 'rgba(40,40,60,1)' ,
-
-    // backgroundColor: 'rgba(180, 255, 180, 1)' ,
-    // backgroundColor  : 'rgba(0,0,0,0)',
+    // backgroundColor : "rgba(250,255,155,1)" ,
+    backgroundColor: 'rgba(200,255,255,1)' ,
+    // borderColor: 'white' ,
+    borderColor: 'rgba(37,37,48,0.05)' ,
+    // borderWidth : 5 , 
 
   },
 
@@ -220,11 +225,13 @@ const stylesDevice = StyleSheet.create({
   toucharea: { 
     // backgroundColor : 'maroon',
     backgroundColor  : 'rgba(0,0,0,0)',
+    paddingRight : 7 ,
+    paddingBottom : 0 ,  
 
   },
 
   textpart : { 
-    color : 'white' ,
+    color : 'black' ,
     // backgroundColor: 'aliceblue',
     backgroundColor  : 'rgba(0,0,0,0)',
   },
@@ -237,6 +244,7 @@ const stylesDevice = StyleSheet.create({
     display : 'flex',
     flexDirection:'row', 
     justifyContent:'flex-end',
+    alignItems : "flex-start" , 
     // alignItems : 'right',
     backgroundColor  : 'rgba(0,0,0,0)',
 
@@ -282,30 +290,52 @@ const stylesDevices= StyleSheet.create({
 const RemainingDev = ({remaining, AddDeviceToConnected}) => {
 
   return (
-      <TouchableOpacity style={stylesRemDev.listItem} onPress={() => AddDeviceToConnected(remaining.id)}>
-          <View style={stylesRemDev.listItemView}>
-              <Text style={stylesRemDev.listItemText}>{remaining.type + " " + remaining.device_num}</Text>
-          </View>
+    <View style = {[  stylesRemDev.listItem]}>
+
+      {/* <View style={stylesRemDev.listItemName}> */}
+      <Text style={stylesRemDev.listItemName}>{remaining.type + " " + remaining.device_num}</Text>
+      {/* </View> */}
+
+      <TouchableOpacity style={stylesRemDev.touchArea} onPress={() => AddDeviceToConnected(remaining.id)}>
+          <Text style = {{color : "white"}}> ADD </Text>
       </TouchableOpacity>
+
+    </View>
   );
 }
 
 const stylesRemDev= StyleSheet.create({
   listItem: {
-      padding: 15,
+    display : "flex",
+    flexDirection : "row" ,
+    justifyContent : "space-between" ,
+      // padding: 15,
       backgroundColor: 'rgba(0,0,0,0.7)',
       borderBottomWidth: 2,
       borderColor: 'pink',
+      alignItems : "center" , 
   },
-  listItemView: {
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  alignItems: 'center',
+
+  listItemName: {
+      alignItems : "stretch" , 
+      textAlign : "center" ,
+      textAlignVertical : "center"  ,
+      color : "cyan" , 
+      fontSize: 18,
+      margin : 17 ,
+      marginLeft : 25 , 
   },
-  listItemText: {
-  color : "cyan" , 
-  fontSize: 18,
-  },
+
+  touchArea : { 
+    display : "flex" ,
+    justifyContent : "space-evenly",
+    textAlignVertical : "center" ,
+    backgroundColor : 'rgba(128,128,128,0.7)',
+    marginRight : 25 ,
+    paddingVertical : 10 ,
+    paddingHorizontal : 20 ,  
+
+  }
 })
 
 // ------------------------------------------------------------------------------------------------------------
@@ -322,7 +352,7 @@ const AddDevice = ({toggleRemaining, state}) => {
               background={Platform.OS === 'android' ? TouchableNativeFeedback.SelectableBackground() : ''}>
 
 
-              <View style={[stylesAddDevice.button , { width : state ? '60%' : '40%'  , } , ]}>
+              <View style={[stylesAddDevice.button , { width : state ? '60%' : '40%' } , ]}>
 
                   <Text style={stylesAddDevice.buttonText}> {state ? "Show Available Devices" : "Hide" } {Platform.OS !== 'android' ? '(Android only)' : ''}</Text>
               </View>
@@ -333,9 +363,11 @@ const AddDevice = ({toggleRemaining, state}) => {
 
 const stylesAddDevice= StyleSheet.create({
 
+
   card : {
-    // backgroundColor :'violet' ,
-    backgroundColor  : 'rgba(90,180,200,1)',
+    backgroundColor :'rgba(140,220,200,0)' ,
+    // backgroundColor  : 'rgba(90,10,200,1)',
+    // 
     width: '100%',
     height : '100%',
     display : 'flex' ,
@@ -347,10 +379,12 @@ const stylesAddDevice= StyleSheet.create({
       // width: {this.state ? '80%' : '40%' },
       height:'60%',
       alignItems: 'center',
-      backgroundColor: 'rgba ( 188,188,188,1)',
+      // backgroundColor: 'rgba( 255,255,255,0.4)',
+      backgroundColor: 'rgba(160,240,220,0.25)',
+      // 
       borderRadius: 8,
-      borderWidth : 0 ,
-      borderColor : 'red' ,
+      // borderWidth : 1 ,
+      borderColor : 'grey' ,
       alignSelf : 'center' ,
       display : 'flex' ,
       justifyContent : 'space-around' ,
@@ -358,18 +392,18 @@ const stylesAddDevice= StyleSheet.create({
     },
 
     toucharea : { 
-      width: '100%',
-      backgroundColor : 'blue' ,
+      // width: '10%',
+      color : 'pink' ,
       borderRadius:'30 0 0 30',
     } ,
 
     buttonText: {
-      // color : 'rgba(180,180,130,1)',
-      // color : 'cyan',
-      color : 'white',
+      // color : 'rgba(100,30,180,1)',
+      color : 'rgba(160,240,220,1)',
+      // color : 'black',
       alignItems : 'center' ,
       textAlign: 'center',
-      
+      fontWeight : "500" ,
       fontSize:15,
     }
 })
@@ -509,9 +543,9 @@ const App = () => {
     <View style = {styles.total}>
         <Header />
 
-        <Text style = { {color : "rgb(2,20,20)" , paddingTop : 5 , fontWeight : '600',  alignSelf : "center", borderBottomColor : "rgba(200,204,208,0.7)",borderTopColor : "rgba(200,204,208,0.9)", borderBottomWidth : 0 , }}>  {connected_dev.length > 0 ? "Connected (" + connected_dev.length + ")" : "No Device Connected"} </Text>
+        <Text style = { {color : "rgb(37,37,48)" , height : "3%", paddingTop : 5 , fontWeight : '600',  alignSelf : "center", borderBottomColor : "rgba(200,204,208,0.7)",borderTopColor : "rgba(200,204,208,0.9)", borderBottomWidth : 0 , }}>  {connected_dev.length > 0 ? "Connected (" + connected_dev.length + ")" : "No Device Connected"} </Text>
 
-        <ScrollView style = {show_remaining ? styles.gridExpand : styles.gridCollapse}  >
+        <ScrollView contentContainerStyle = {styles.spl} style = {show_remaining ? styles.gridExpand : styles.gridCollapse}  >
 
             {connected_dev.length > 0 ? <Devices devices={connected_dev} curr_added={curr_added} deleteDevice={deleteDevice}/> : <Text style = { styles.noDeviceText}> </Text>}
   
@@ -528,7 +562,7 @@ const App = () => {
     
           <View>
             { !show_remaining ? ""
-                  : (connected_dev.length == devices.length ) ? <Text style = { styles.noDeviceText}> Nothing to Add</Text>
+                  : (connected_dev.length == devices.length ) ? <Text style = { styles.noDeviceText}> Nothing more to Add</Text>
                             
                       :(remaining_dev.map((not_connected) => (<RemainingDev key={not_connected.id} remaining={not_connected} AddDeviceToConnected={AddDeviceToConnected}/>))) 
                           
@@ -544,20 +578,31 @@ const App = () => {
   );
 }
 
+const xx = 30 ; 
+
 const styles = StyleSheet.create({
   gridExpand:{
     marginTop : 10 ,
-    paddingTop : 20 , 
-    backgroundColor: "rgba(0,10,10,0.7)",
+    // marginBottom : 10 , 
+    // backgroundColor: "rgba(120,180,120,0.6)",
+    backgroundColor: "aliceBlue",
+
     width:Dim_width,
-    height:'30%',
+    height:"0%",
 
   },
+
+  spl: {
+    justifyContent: 'space-around',
+    // height : Dim_height,
+    // height :"auto",
+
+  } , 
   
   addButtonBaseExpand:{
     justifyContent: 'space-around',
     height : '10%',
-    // backgroundColor: 'blue',
+    backgroundColor: 'rgb(37,37,48)',
   },
 
   additionListExpand : {
@@ -565,26 +610,27 @@ const styles = StyleSheet.create({
     backgroundColor: "rgb(0,50,50)",
 
     width:Dim_width,
-    height:'40%',
-
+    height:'71%',
   },
 
 
   gridCollapse:{
-    marginTop : 10 ,
-    // paddingTop : 20 , 
-    // paddingBottom : 40 , 
-    backgroundColor: "rgba(0,10,10,0.7)",
 
-    // backgroundColor: "aliceblue",
+    flexGrow:0 , 
+
+    marginTop : 10 ,
+    // paddingTop : 10 , 
+    // backgroundColor: "rgba(120,180,120,0.6)",
+    backgroundColor: "aliceblue",
     width:Dim_width,
-    height:600,
+    height:"67%",
   },
 
   addButtonBaseCollapse:{
     justifyContent: 'space-around',
     paddingVertical : 0 , 
     height : '10%',
+    backgroundColor: 'rgb(37,37,48)',
     // backgroundColor: 'blue',
   },
 
@@ -600,6 +646,9 @@ const styles = StyleSheet.create({
   noDeviceText : { 
     textAlign : 'center' ,
     color : "white" ,
+    textAlignVertical : "center" ,
+    height : 300,
+    
 
   } , 
   total:{
@@ -607,7 +656,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-around',
     height:'100%',
-    backgroundColor  : 'rgba(10,200,220,1)',
+    backgroundColor  : 'rgba(160,240,220,0.4)',
+    // backgroundColor  : 'rgba(160,240,220,0.4)',
+    // rgb(37,37,48)
+    // backgroundColor  : "aliceblue",
 
   }
 });
