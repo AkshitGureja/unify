@@ -7,23 +7,24 @@ var Dim_width = Dimensions.get('window').width; //full width
 const Devices = ({devices, curr_added, deleteDevice}) => {
     return (
         <View>
-            <View  style={styles.devices}>
+            <View  style={stylesDevices.devices}>
                 {devices.map((device) => (<Device key={device.id} device ={device} deleteDevice={deleteDevice}/>))}
             </View>
         </View>
     )
 }
 
-const styles= StyleSheet.create({
+const stylesDevices= StyleSheet.create({
     devices:{
         display:"flex",
         flexWrap: "wrap",
-        justifyContent:"space-evenly",
+        justifyContent:"space-around",
         width:Dim_width,
-        marginTop:30,
-        // marginLeft:20,
-        marginRight:20,
+        // marginTop:30,
+        // marginHorizontal:10,
+        // marginRight:20,
         flexDirection:'row',
+        height : "100%" , 
     }
 })
 
