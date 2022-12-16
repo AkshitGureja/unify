@@ -37,7 +37,7 @@ const [temperature, setTemperature] = useState(30);
 
   return (
     <View style={[styles.card, styles.elevation]}>
-        <View style={{flexDirection:'row', alignContent:'center', justifyContent:'center'}}> 
+        <View style={{flexDirection:'row', alignContent:'center', justifyContent:'center', alignSelf:'center', alignItems:'center'}}> 
             <Image source={require('./../assets/unify1.png')} /> 
         </View>
         

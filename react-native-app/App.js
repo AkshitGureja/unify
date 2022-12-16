@@ -19,7 +19,7 @@ var ReadAPIKey = "HS2MH5I3OVEJV4OJ";
 var WriteAPIKey = "A8PNTCM88WJY1U82";
 
 const App = () => {
-  const [curr_added, setCurrDevices] = useState([1,4,3,5,6])
+  const [curr_added, setCurrDevices] = useState([1,2,4,5])
 
   const [show_remaining, setShowRemaining] = useState(true)
 
@@ -59,15 +59,6 @@ const App = () => {
     },
     {
       id:5,
-      type:"Fan",
-      deviceName: null,
-      deviceTypeNum : 2,
-      device_num: 2,
-      status: false,
-      fan_speed: 0,
-    },
-    {
-      id:6,
       type:"Dimmer",
       deviceName: null,
       deviceTypeNum : 3,
@@ -90,6 +81,14 @@ const App = () => {
   const toggleRemaining = () => {
     setShowRemaining(!show_remaining);
     // console.log(not_connected);
+  }
+
+  const ChangeName = (newName, id) => {
+    console.log(devices)
+    setDevices(prevItems => {
+      return prevItems.map(item => 
+        item.id === id ? {id, deviceName:newName, deviceTypeNum : item.deviceTypeNum, device_num: item.device_num, status: item.status} : item)
+    })
   }
 
   const AddDeviceToConnected = (id) => {
@@ -167,23 +166,23 @@ const App = () => {
     return (
         <ScrollView style={styles.container}>
         <Header />
-        <Text style={{color:'white', fontSize:35}}>Personal Devices</Text>
+        <Text style={{color:'white', fontSize:35, left:25}}>Personal Devices</Text>
         <View>
-          {connected_dev.length > 0 ? <Devices devices={connected_dev} curr_added={curr_added} deleteDevice={deleteDevice} navigation={navigation}/> : " No Connected Device"}
+          {connected_dev.length > 0 ? <Devices devices={connected_dev} curr_added={curr_added} deleteDevice={deleteDevice} navigation={navigation}/> : <Text style={{marginTop:20, marginBottom: 20, justifyContent: 'center', alignContent:'center', alignSelf:'center', color:'white'}}>No Connected Device</Text>}
         </View>
         <View>
-          {connected_dev.length < 7 ? <AddDevice onPress={() => navigation.navigate('Details')} toggleRemaining={toggleRemaining}/> : ""}
+          {connected_dev.length < 7 ? <AddDevice navigation={navigation} toggleRemaining={toggleRemaining} show_remaining={show_remaining} remaining_dev={remaining_dev} AddDeviceToConnected={AddDeviceToConnected}/> : ""}
         </View>
-        <View>
+        {/* <View>
           {show_remaining ? (remaining_dev.map((not_connected) => (<RemainingDev key={not_connected.id} remaining={not_connected} AddDeviceToConnected={AddDeviceToConnected}/>))) : ""}
-        </View>
+        </View> */}
         {/* <View>
           {connected_dev.length > 0 ? <ShowDevStatus GetStatus={GetStatus} /> : ""}
         </View> */}
-        <Button
+        {/* <Button
         title="Go to Details"
         onPress={() => navigation.navigate('Status')}
-      />
+      /> */}
       </ScrollView>
     );
   };
@@ -215,16 +214,18 @@ const App = () => {
 
     return (
         <View style={{ flex:1, alignItems: 'center', justifyContent: 'center' , backgroundColor:'black'}}>
-            {route.params.device.deviceTypeNum == 1 ? <MaterialCommunityIcons name="lightbulb" size={60} color="white"/> : ""}
-            {route.params.device.deviceTypeNum == 2 ? <MaterialCommunityIcons name="fan" size={60} color="white"/> : ""}
-            {route.params.device.deviceTypeNum == 3 ? <MaterialCommunityIcons name="desk-lamp" size={60} color="white"/> : ""}
+            {route.params.device.deviceTypeNum == 1 ? <MaterialCommunityIcons name="lightbulb" size={60} style={{marginBottom:10}} color="white"/> : ""}
+            {route.params.device.deviceTypeNum == 2 ? <MaterialCommunityIcons name="fan" size={60} style={{marginBottom:10}} color="white"/> : ""}
+            {route.params.device.deviceTypeNum == 3 ? <MaterialCommunityIcons name="desk-lamp" size={60} style={{marginBottom:10}} color="white"/> : ""}
             <Text style={{color:'white', fontSize:35, marginBottom:40}}>{route.params.device.type + " " + route.params.device.device_num}</Text>
 
             <View style={[styles.card, styles.elevation]}>
                 <Text style={{color:'white', fontSize:20}}>Status:</Text>
                 <Text style={{color:'white', fontSize:20}}>{Number(stat) > 0 ? "OFF" : "ON"}</Text>
             </View>
-
+            <TouchableOpacity style={{position:'absolute', bottom:10}}>
+                <AntDesign name="edit" size={30} color="white" />
+            </TouchableOpacity>
         </View>
         
       );
@@ -232,8 +233,11 @@ const App = () => {
 
   const AddScreen = ({navigation, route}) => {
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text>Add Screen</Text>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor:'black' }}>
+          <Text style={{color:'white', fontSize:35, marginBottom:40}}>Add Device</Text>
+          <View>
+              {show_remaining ? (remaining_dev.map((not_connected) => (<RemainingDev key={not_connected.id} remaining={not_connected} AddDeviceToConnected={AddDeviceToConnected}/>))) : ""}
+          </View>
         </View>
       );
   }
@@ -242,9 +246,9 @@ const App = () => {
 
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Status" component={StatusScreen} />
-        <Stack.Screen name="Add" component={AddScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="Status" component={StatusScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="Add" component={AddScreen} options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
