@@ -4,27 +4,26 @@ import { StyleSheet, Text, View, Image , Dimensions, TouchableOpacity} from 'rea
 
 var Dim_width = Dimensions.get('window').width; //full width
 
-const Devices = ({devices, curr_added, deleteDevice}) => {
+const Devices = ({devices, curr_added, deleteDevice, navigation}) => {
     return (
         <View>
-            <View  style={stylesDevices.devices}>
-                {devices.map((device) => (<Device key={device.id} device ={device} deleteDevice={deleteDevice}/>))}
+            <View  style={styles.devices}>
+                {devices.map((device) => (<Device key={device.id} device ={device} deleteDevice={deleteDevice} navigation={navigation}/>))}
             </View>
         </View>
     )
 }
 
-const stylesDevices= StyleSheet.create({
+const styles= StyleSheet.create({
     devices:{
         display:"flex",
         flexWrap: "wrap",
-        justifyContent:"space-around",
+        justifyContent:"space-evenly",
         width:Dim_width,
-        // marginTop:30,
-        // marginHorizontal:10,
-        // marginRight:20,
+        marginTop:30,
+        // marginLeft:20,
+        marginRight:20,
         flexDirection:'row',
-        height : "100%" , 
     }
 })
 

@@ -1,64 +1,54 @@
 import { StyleSheet, Text, View, Image , Dimensions, TouchableOpacity, Platform,TouchableNativeFeedback} from 'react-native';
 import React from 'react';
+import { AntDesign } from '@expo/vector-icons';
 
 var Dim_width = Dimensions.get('window').width; //full width
 
-const AddDevice = ({toggleRemaining, state}) => {
+const AddDevice = ({toggleRemaining}) => {
 
     return (
-        <View style={stylesAddDevice.card}>
+        <View style={[styles.card, styles.elevation]}>
             <TouchableNativeFeedback
-                style = { stylesAddDevice.toucharea}
                 onPress={toggleRemaining}
                 background={Platform.OS === 'android' ? TouchableNativeFeedback.SelectableBackground() : ''}>
-
-
-                <View style={[stylesAddDevice.button , { width : state ? '80%' : '40%'  , } , ]}>
-
-                    <Text style={stylesAddDevice.buttonText}> {state ? "Show Available Devices" : "Hide" } {Platform.OS !== 'android' ? '(Android only)' : ''}</Text>
+                {/* <View style={styles.button}>
+                    <Text style={styles.buttonText}>Add Device {Platform.OS !== 'android' ? '(Android only)' : ''}</Text>
+                </View> */}
+                <View style={{flexDirection:'row', justifyContent:'center', alignContent:'center', alignSelf:'center', marginTop:20}}>
+                    <AntDesign style={{ marginRight:10}}name="pluscircleo" size={35} color="white" />
+                    <Text style={{color:'white', fontSize:25}}>Add Device</Text>
                 </View>
+                
             </TouchableNativeFeedback>
         </View>
     );
 }
 
-const stylesAddDevice= StyleSheet.create({
-
-    card : {
-      backgroundColor :'violet' ,
-      width: '100%',
-      height : '100%',
-      display : 'flex' ,
-      justifyContent : 'space-around' ,
-      
-      } , 
-// rgba ( 128,128,128,1)
+const styles= StyleSheet.create({
+    devices:{
+        display:"flex",
+        flexWrap: "wrap",
+        justifyContent:"space-between",
+        width:Dim_width,
+        marginTop:30,
+        flexDirection:'row',
+    },
     button: {
-        // width: {this.state ? '80%' : '40%' },
-        height:'60%',
+        marginBottom: 30,
+        marginTop:20,
+        width: Dim_width,
+        height:90,
         alignItems: 'center',
-        backgroundColor: 'yellow',
-        borderRadius:30,
-        borderWidth : 2 ,
-        borderColor : 'red' ,
-        alignSelf : 'center' ,
-        display : 'flex' ,
-        justifyContent : 'space-around' ,
-
+        backgroundColor: '#2196F3',
+        borderRadius:50,
       },
-
-      toucharea : { 
-        width: '100%',
-        backgroundColor : 'maroon' ,
-        borderRadius:'30 0 0 30',
-      } ,
-
       buttonText: {
-        color : 'rgba(0,0,0,0.8)',
-        alignItems : 'center' ,
         textAlign: 'center',
-        
-        fontSize:18,
+        padding: 30,
+        color: 'white',
+        alignItems: 'center',
+        justifyContent:'center',
+        fontSize:20
       }
 })
 

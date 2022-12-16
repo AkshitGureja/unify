@@ -2,23 +2,24 @@ import { StyleSheet, Text, View, Image , Dimensions, TouchableOpacity, Platform,
 import React from 'react';
 
 var Dim_width = Dimensions.get('window').width; //full width
+
 const RemainingDev = ({remaining, AddDeviceToConnected}) => {
 
     return (
-        <TouchableOpacity style={stylesRemDev.listItem} onPress={() => AddDeviceToConnected(remaining.id)}>
-            <View style={stylesRemDev.listItemView}>
-                <Text style={stylesRemDev.listItemText}>{remaining.type + " " + remaining.device_num}</Text>
+        <TouchableOpacity style={styles.listItem} onPress={() => AddDeviceToConnected(remaining.id)}>
+            <View style={styles.listItemView}>
+                <Text style={styles.listItemText}>{remaining.type + " " + remaining.device_num}</Text>
             </View>
         </TouchableOpacity>
     );
-  }
-  
-  const stylesRemDev= StyleSheet.create({
+}
+
+const styles= StyleSheet.create({
     listItem: {
         padding: 15,
         backgroundColor: '#f8f8f8',
-        borderBottomWidth: 2,
-        borderColor: 'pink',
+        borderBottomWidth: 1,
+        borderColor: '#eee',
     },
     listItemView: {
     flexDirection: 'row',
@@ -28,7 +29,6 @@ const RemainingDev = ({remaining, AddDeviceToConnected}) => {
     listItemText: {
     fontSize: 18,
     },
-  })
-  
+})
 
 export default RemainingDev

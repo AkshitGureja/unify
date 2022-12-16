@@ -1,120 +1,72 @@
 import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity } from 'react-native';
 import React from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { AntDesign, FontAwesome} from '@expo/vector-icons';
+import { AntDesign, FontAwesome, MaterialCommunityIcons} from '@expo/vector-icons';
 
 var Dim_width = Dimensions.get('window').width; //full width
 var Dim_height = Dimensions.get('window').height; //full width
-const Device = ({device, deleteDevice}) => {
-  // return (
-  //     <View style={[stylesDevice.card, stylesDevice.elevation, device.status ? stylesDevice.blue : stylesDevice.white]}>
-  //         <View style={stylesDevice.cross}>
-  //             <Text style={stylesDevice.heading}>
-  //               {device.type + " " + device.device_num}
-  //             </Text>
-  //             <TouchableOpacity style = {stylesDevice.toucharea} onPress={() => deleteDevice(device.id)}>
-  //               <View style={stylesDevice.container}>
-  //                 <AntDesign name="closecircle" size={25} color="orange" />
-  //               </View>
-  //             </TouchableOpacity>
-  //         </View>
-  //         <Text>
-  //             {device.status ? "ON" : "OFF"}
-  //         </Text>
-     
-  //     </View>
-  // );
 
-// /*
-  return (
+const Device = ({device, deleteDevice, navigation}) => {
+    return (
+        <TouchableOpacity style={[styles.card, styles.elevation, device.status ? styles.blue : styles.white]} onPress={() => navigation.navigate('Status', {device})} >
+            <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+              {device.deviceTypeNum == 1 ? <MaterialCommunityIcons style={{marginBottom:10, marginLeft:-7}} name="lightbulb" size={28} color="white"/> : ""}
+              {device.deviceTypeNum == 2 ? <MaterialCommunityIcons style={{marginBottom:10, marginLeft:-5}} name="fan" size={28} color="white"/> : ""}
+              {device.deviceTypeNum == 3 ? <MaterialCommunityIcons style={{marginBottom:10, marginLeft:-4}} name="desk-lamp" size={28} color="white"/> : ""}
 
-    <View style = {[stylesDevice.card, stylesDevice.elevation, device.status ? stylesDevice.blue : stylesDevice.white]}> 
+              <TouchableOpacity onPress={() => deleteDevice(device.id)}>
+                  <View style={styles.container}>
+                    <AntDesign name="closecircle" size={25} color="white" />
+                  </View>
+              </TouchableOpacity>
+            </View>
+            
 
-      <View style = {stylesDevice.crosspart}>
-          <TouchableOpacity style = {stylesDevice.toucharea} onPress={() => deleteDevice(device.id)}>
-                <View style={stylesDevice.xmark}>
-                  <AntDesign name="closecircle" size={20} color="orange" />
-                </View>
-          </TouchableOpacity>
-      </View>
+            <View style={styles.cross}>
+                <Text style={styles.heading}>
+                  {device.type + " " + device.device_num}
+                </Text>
+            </View>
+            <Text style={{color:'white'}}>
+                {device.status ? "ON" : "OFF"}
+            </Text>            
+        </TouchableOpacity>
+    );
+}
 
-    
-
-      <View style = {stylesDevice.textpart} >
-      
-          <Text style={stylesDevice.heading}>
-                {device.type + " " + device.device_num}
-              </Text>
-
-          <Text>
-              {device.status ? "ON" : "OFF"}
-          </Text>
-      
-      </View>
-
-      
-    </View>
-    
-); 
-
-// */
-
-};
-
-const stylesDevice = StyleSheet.create({
-  heading: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 13,
-  },
-  card: {
-    backgroundColor: 'white',
-    borderRadius: 20,
-    paddingBottom: 45,
-    paddingLeft: 25,
-    paddingRight: 5,
-    paddingTop: 5,
-    width: '40%',
-    marginVertical: 10,
-    borderColor : "green" ,
-    borderStyle : 'solid', 
-    borderWidth : 3 , 
-  },
-  white:{
-    backgroundColor: 'white' ,
-  },
-  blue:{
-    backgroundColor: 'rgba(180, 255, 180, 1)' ,
-  },
-
-  elevation: {
-    elevation: 20,
-    shadowColor: '#52006A',
-  },
-
-  toucharea: { 
-    // backgroundColor : 'maroon',
-  },
-
-  textpart : { 
-    // backgroundColor  : 'rgba(0,0,0,0)',
-  },
-
-  all : {
-     backgroundColor : 'white',
-  },
-
-  crosspart:{
-    // backgroundColor : 'pink',
-    // flex:1, 
-    display : 'flex',
-    flexDirection:'row', 
-    justifyContent:'flex-end',
-    // alignItems : 'right',
-  }
-  
-});
-
-
+const styles = StyleSheet.create({
+    heading: {
+      fontSize: 18,
+      fontWeight: '600',
+      marginBottom: 13,
+      color:'white'
+    },
+    card: {
+      borderRadius: 20,
+      paddingVertical: 25,
+      paddingHorizontal: 25,
+      width: '40%',
+      marginVertical: 10,
+      color:'white'
+    },
+    white:{
+      backgroundColor: '#252525',
+      color:'white'
+    },
+    blue:{
+      backgroundColor: '#252525',
+      color:'white'
+    },
+    elevation: {
+      elevation: 20,
+      // shadowColor: '#52006A',
+      // shadowColor: 'white',
+    },
+    cross:{
+      flex:1, 
+      flexDirection:'row', 
+      justifyContent:'space-between'
+    }
+  });
 
 export default Device
